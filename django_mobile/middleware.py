@@ -11,7 +11,7 @@ class SetFlavourMiddleware(object):
         if settings.FLAVOURS_GET_PARAMETER in request.GET:
             flavour = request.GET[settings.FLAVOURS_GET_PARAMETER]
             if flavour in settings.FLAVOURS:
-                set_flavour(flavour, request, permanent=True)
+                set_flavour(flavour, request, permanent = True)
 
     def process_response(self, request, response):
         flavour_storage.save(request, response)
@@ -27,7 +27,7 @@ class MobileDetectionMiddleware(object):
         "keji", "leno", "lg-c", "lg-d", "lg-g", "lge-",
         "maui", "maxo", "midp", "mits", "mmef", "mobi",
         "mot-", "moto", "mwbp", "nec-", "newt", "noki",
-        "xda",  "palm", "pana", "pant", "phil", "play",
+        "xda", "palm", "pana", "pant", "phil", "play",
         "port", "prox", "qwap", "sage", "sams", "sany",
         "sch-", "sec-", "send", "seri", "sgh-", "shar",
         "sie-", "siem", "smal", "smar", "sony", "sph-",
@@ -58,7 +58,10 @@ class MobileDetectionMiddleware(object):
             user_agent = request.META['HTTP_USER_AGENT']
 
             # Test common mobile values.
-            if self.user_agents_test_search_regex.search(user_agent) and \
+            if settings.TREAT_IPAD_AS_MOBILE and \
+                self.user_agents_test_search_regex.search(user_agent):
+                is_mobile = True
+            elif self.user_agents_test_search_regex.search(user_agent) and \
                 not self.user_agents_exception_search_regex.search(user_agent):
                 is_mobile = True
             else:

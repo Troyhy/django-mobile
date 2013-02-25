@@ -32,6 +32,6 @@ class defaults(object):
         if loader != 'django_mobile.loader.Loader':
             FLAVOURS_TEMPLATE_LOADERS.append(loader)
     FLAVOURS_TEMPLATE_LOADERS = tuple(FLAVOURS_TEMPLATE_LOADERS)
-
+    TREAT_IPAD_AS_MOBILE = False
 
 settings = SettingsProxy(django_settings, defaults)
